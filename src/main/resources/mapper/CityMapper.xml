@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.CityMapper">
+
+
+    <resultMap id="cityResultMap" type="entity.CityEntity">
+        <id column="ID" property="id" />
+        <result column="Name" property="name"/>
+        <result column="CountryCode" property="countryCode"/>
+        <result column="District" property="district"/>
+        <result column="Population" property="population"/>
+        <result column="CREATE_TIME" property="createTime"/>
+        <result column="UPDATE_TIME" property="updateTime"/>
+        <result column="OPERATION_TIME" property="operationTime"/>
+        <result column="DATA_STATUS" property="dataStatus"/>
+        <result column="NOTES" property="notes"/>
+    </resultMap>
+    <sql id="city_columns">
+        ID,Name,CountryCode,District,Population,CREATE_TIME,UPDATE_TIME,OPERATION_TIME,DATA_STATUS,NOTES
+    </sql>
+
+<insert id="insertCity" parameterType="entity.CityEntity">
+insert into  city(ID,Name,CountryCode,District,Population,CREATE_TIME,UPDATE_TIME,OPERATION_TIME,DATA_STATUS,NOTES)
+values(
+#{id},#{name},#{countryCode},#{district},#{population},#{createTime},
+    #{updateTime},
+    #{operationTime},
+    'Y',
+    #{notes}
+    )
+</insert>
+    <select id="selectCity" parameterType="entity.CityEntity" resultMap="cityResultMap">
+        select * from city
+        <where>
+            <if test="null != name and name != ''">
+                Name = #{name}
+            </if>
+            and DATA_STATUS = 'Y'
+        </where>
+    </select>
+</mapper>
