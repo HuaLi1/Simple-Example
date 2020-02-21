@@ -25,17 +25,7 @@ public class RocketmqController {
     private Consumer consumer;
     private List<String> mesList;
 
-    /**
-     * 初始化消息
-     */
-    public RocketmqController() {
-        mesList = new ArrayList<>();
-        for (int i=0;i<5;i++){
-            String str = "";
-            str = str+ (char)(Math.random()*26+'A');
-            mesList.add(str);
-        }
-    }
+ 
 
     @RequestMapping("/testMQ")
     public String testMq() {
