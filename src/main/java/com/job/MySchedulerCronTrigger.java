@@ -1,24 +1,16 @@
 package com.job;
 
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-public class MySchedulerTrigger {
+public class MySchedulerCronTrigger {
     public static void main(String[] args) throws SchedulerException, InterruptedException {
-
-        //任务开始时间
-        Date startTime = new Date();
-        startTime.setTime(startTime.getTime()+3000);
-        //任务结束时间
-        Date endTime = new Date();
-        endTime.setTime(endTime.getTime()+8000);
         // 1、创建调度器Scheduler
         SchedulerFactory schedulerFactory = new StdSchedulerFactory();
-
         Scheduler scheduler = schedulerFactory.getScheduler();
         // 2、创建JobDetail实例，并与PrintWordsJob类绑定(Job执行内容)
         /**
@@ -26,31 +18,35 @@ public class MySchedulerTrigger {
          * 的execute()的内容，任务执行结束后，关联的Job对象实例会被释放，且会被JVM GC清除。
          * JobDetail的重要属性：name(必须指定)，group(默认DEFAULT),jobClass，jonDataMap
          */
-        JobDetail jobDetail = JobBuilder.newJob(HelloJobTrigger.class)
+        JobDetail jobDetail = JobBuilder.newJob(HelloJobSimpleTrigger.class)
                 .withIdentity("job1", "group1")
                 .usingJobData("message","JobDetail")
                 .build();
-
+        System.out.println("名称："+jobDetail.getKey().getName()+
+                "\n组名："+jobDetail.getKey().getGroup()+
+                "\n任务类名："+jobDetail.getJobClass().getName());
         // 3、构建Trigger实例,每隔2s执行一次
-        Trigger trigger = TriggerBuilder.newTrigger().withIdentity("triggerA ", "triggerGroupA")
-                .withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(1).repeatForever())
-                //.startNow()//立即生效
-                .startAt(startTime)
-                .endAt(endTime)
+        Trigger trigger = TriggerBuilder.newTrigger().withIdentity("trigger1", "triggerGroup1")
+                .startNow()//立即生效
+                .withSchedule(CronScheduleBuilder.cronSchedule("0/3 * * * * ?"))//使用cron表达式，每三秒执行一次
                 .usingJobData("message","Trigger")
                 .build();//一直执行
 
         //4、使用处发生器调度任务执行
-        scheduler.scheduleJob(jobDetail, trigger);
-        System.out.println("-------scheduler start ! ------------");
-        //开启
-        scheduler.start();
+        Date startDate = scheduler.scheduleJob(jobDetail, trigger);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
+        System.out.println("调度器开始时间："+simpleDateFormat.format(startDate));
+        System.out.println("--------scheduler start ! ------------");
 
+        scheduler.start();
+        Thread.sleep(5000L);
+        //挂起，暂停任务
+        scheduler.standby();
         //睡眠
-        TimeUnit.MINUTES.sleep(1);
-        //关闭
-        scheduler.shutdown();
+        //TimeUnit.MINUTES.sleep(1);
+        //scheduler.shutdown();
         System.out.println("--------scheduler shutdown ! ------------");
+
 
     }
 
