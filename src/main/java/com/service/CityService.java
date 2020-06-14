@@ -1,5 +1,6 @@
 package com.service;
 
+import com.alibaba.fastjson.JSON;
 import com.daoService.CityJdbcTemplateDao;
 import com.daoService.CityMybatisService;
 import entity.CityEntity;
@@ -11,7 +12,7 @@ import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 
-@Service("cityService")
+@Service
 public class CityService {
 
     private static final Log LOG = LogFactory.getLog(CityJdbcTemplateDao.class);
@@ -42,9 +43,32 @@ public class CityService {
         cityMybatisService.insertCity(city);
     }
 
+    public synchronized int insert(CityEntity cityEntity){
+
+        if (cityMybatisService == null){
+            cityMybatisService = new CityMybatisService();
+        }
+        List<CityEntity> cityEntities = cityMybatisService.selectCity(cityEntity);
+        if (cityEntities == null){
+            System.out.println("插入城市信息："+ JSON.toJSONString(cityEntity));
+            cityMybatisService.insertCity(cityEntity);
+        }else {
+            System.out.println("该城市已经存在了");
+        }
+        return 0;
+    }
+
     public List<CityEntity> selectCityByMybatis(String name){
         CityEntity cityEntity = new CityEntity();
         cityEntity.setName(name);
+        List<CityEntity> entities = cityMybatisService.selectCity(cityEntity);
+        return entities;
+    }
+
+    public List<CityEntity> selectCity(CityEntity cityEntity){
+        if (cityMybatisService == null){
+            cityMybatisService = new CityMybatisService();
+        }
         List<CityEntity> entities = cityMybatisService.selectCity(cityEntity);
         return entities;
     }

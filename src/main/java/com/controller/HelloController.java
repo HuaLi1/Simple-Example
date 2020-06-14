@@ -3,9 +3,12 @@ package com.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.service.RedisService;
+import com.service.SpringContextHolder;
+import com.thread.ThreadDemo3;
 import entity.CityEntity;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.bind.annotation.*;
 import com.service.CityService;
 
@@ -13,7 +16,10 @@ import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Vector;
 
 @RestController
 public class HelloController {
@@ -22,14 +28,27 @@ public class HelloController {
 
     @Resource
     private CityService cityService;
-
     /*redis服务类*/
     @Resource
     private RedisService redisService;
+    @Resource
+    private SpringContextHolder springContextHolder;
+    @Resource(name = "taskExecutor")
+    private ThreadPoolTaskExecutor taskExecutor;
+    private Object ThreadDemo1;
+
+
     /*http://localhost:8080/hello*/
     @RequestMapping(value="/hello",method= RequestMethod.GET)
     public String sayHello(){
-        cityService.insertCityByJdbcTemplate();
+
+        //cityService.insertCityByJdbcTemplate();
+        ThreadDemo3 t1 = new ThreadDemo3(springContextHolder);
+        ThreadDemo3 t2 = new ThreadDemo3(springContextHolder);
+        ThreadDemo3 t3 = new ThreadDemo3(springContextHolder);
+        t1.start();
+        t2.start();
+        t3.start();
         return "hello spring boot";
     }
 
@@ -77,6 +96,20 @@ public class HelloController {
         return redisService.get(key).toString();
     }
 
+    @RequestMapping(value = "execute",method = RequestMethod.GET)
+    public void execute(){
+        //eg: http://localhost:8080/execute
+
+        Vector<String> waybillNos = new Vector<>();
+
+        waybillNos.add("124589878");
+        waybillNos.add("000000111");
+        waybillNos.add("000000000");
+        waybillNos.add("000000001");
+        taskExecutor.execute(new ThreadTest(waybillNos));
+
+
+    }
 
     /**
      * <p>输出</p>
@@ -100,6 +133,41 @@ public class HelloController {
                 /*关闭输出流*/
                 outputStream.close();
             }
+        }
+    }
+
+    public class ThreadTest implements Runnable{
+
+        private Vector<String> waybillNos;
+        public ThreadTest(Vector<String> waybillNos){
+            this.waybillNos=waybillNos;
+        }
+        @Override
+        public void run() {
+            //处理业务
+            if (waybillNos.size()<=4){
+                waybillNos.add("------");
+                System.out.println("小于等于4");
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                waybillNos.remove("------");
+                System.out.println("大于4");
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+            printWaybillNo(waybillNos);
+        }
+    }
+    private void printWaybillNo(List<String> waybillNos){
+        for (String waybillNo : waybillNos){
+            System.out.println(waybillNo+"  ");
         }
     }
 }

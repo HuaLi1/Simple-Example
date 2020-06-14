@@ -35,6 +35,9 @@ values(
             <if test="null != name and name != ''">
                 Name = #{name}
             </if>
+            <if test="countryCode != null and countryCode !=''">
+                AND CountryCode = #{countryCode}
+            </if>
             and DATA_STATUS = 'Y'
         </where>
     </select>

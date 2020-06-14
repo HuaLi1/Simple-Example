@@ -16,6 +16,12 @@ public class CityEntity {
     private String dataStatus;
     private String notes;
 
+    public CityEntity(String name,String countryCode){
+        this.name = name;
+        this.countryCode = countryCode;
+    }
+    public CityEntity(){
+    }
     public Integer getId() {
         return id;
     }
