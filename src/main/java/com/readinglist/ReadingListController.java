@@ -1,6 +1,6 @@
-package com.readinglist.entity;
+package com.readinglist;
 
-import com.readinglist.entity.api.ReadingListRepository;
+import com.readinglist.api.ReadingListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

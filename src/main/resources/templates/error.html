@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/data/jaxb">
+<head>
+    <title>Oops!</title>
+    <link rel="stylesheet" th:href="@{/style.css}"></link>
+</head>
+<body>
+<!--Spring Boot会为错误视图提供如下错误属性。
+ timestamp：错误发生的时间。
+ status：HTTP状态码。
+ error：错误原因。
+ exception：异常的类名。
+ message：异常消息（如果这个错误是由异常引起的）。
+ errors：BindingResult异常里的各种错误（如果这个错误是由异常引起的）。
+ trace：异常跟踪信息（如果这个错误是由异常引起的）。
+ path：错误发生时请求的URL路径。-->
+<div class="errorPage">
+    <span class="oops">Oops!</span><br/>
+    <img th:src="@{/MissingPage.jpg}">
+    <p>There seems to be a problem with the page you requested
+        (<span th:text="${path}"></span>).</p><!--显示请求路径-->
+    <!--显示错误明细-->
+    <p th:text="${'Details: ' + message}"></p>
+</div>
+</body>
+</html>
