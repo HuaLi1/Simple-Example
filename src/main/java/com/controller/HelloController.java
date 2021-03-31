@@ -5,7 +5,7 @@ import com.alibaba.fastjson.JSON;
 import com.service.RedisService;
 import com.service.SpringContextHolder;
 import com.thread.ThreadDemo3;
-import entity.CityEntity;
+import com.entity.CityEntity;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -16,8 +16,6 @@ import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
@@ -110,6 +108,8 @@ public class HelloController {
 
 
     }
+
+
 
     /**
      * <p>输出</p>

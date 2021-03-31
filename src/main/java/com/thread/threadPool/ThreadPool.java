@@ -6,7 +6,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class ThreadPool {
 
-    public static void main(String[] args) throws InterruptedException, IOException {
+    public static void main(String[] args) throws IOException {
         /*核心线程池大小*/
         int corePoolSize = 2;
         /*最大线程池大小*/

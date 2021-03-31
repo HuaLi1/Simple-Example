@@ -1,15 +1,19 @@
 package com.service;
 
+import com.rocketmq.producer.Producer;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
 
 @Service
 public class RedisService {
-
+    private static final Log LOG = LogFactory.getLog(Producer.class);
     @Autowired
     protected StringRedisTemplate redisTemplate;
 

@@ -1,7 +1,7 @@
 package com.service;
 
 import com.daoService.CityMybatisService;
-import entity.CityEntity;
+import com.entity.CityEntity;
 
 import javax.annotation.Resource;
 import java.util.List;

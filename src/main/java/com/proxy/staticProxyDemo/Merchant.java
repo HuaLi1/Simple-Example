@@ -1,6 +1,6 @@
 package com.proxy.staticProxyDemo;
 
-import entity.CityEntity;
+import com.entity.CityEntity;
 
 import java.util.ArrayList;
 import java.util.List;

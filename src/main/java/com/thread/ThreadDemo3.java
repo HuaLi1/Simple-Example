@@ -1,14 +1,12 @@
 package com.thread;
 
-import com.alibaba.fastjson.JSON;
 import com.service.CityService;
 import com.service.SingletonCityService;
 import com.service.SpringContextHolder;
-import entity.CityEntity;
+import com.entity.CityEntity;
 
 import javax.annotation.Resource;
 import java.util.Date;
-import java.util.List;
 
 public class ThreadDemo3 extends Thread{
 

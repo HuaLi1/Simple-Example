@@ -3,7 +3,7 @@
 <mapper namespace="com.dao.CityMapper">
 
 
-    <resultMap id="cityResultMap" type="entity.CityEntity">
+    <resultMap id="cityResultMap" type="com.entity.CityEntity">
         <id column="ID" property="id" />
         <result column="Name" property="name"/>
         <result column="CountryCode" property="countryCode"/>
@@ -19,7 +19,7 @@
         ID,Name,CountryCode,District,Population,CREATE_TIME,UPDATE_TIME,OPERATION_TIME,DATA_STATUS,NOTES
     </sql>
 
-<insert id="insertCity" parameterType="entity.CityEntity">
+<insert id="insertCity" parameterType="com.entity.CityEntity">
 insert into  city(ID,Name,CountryCode,District,Population,CREATE_TIME,UPDATE_TIME,OPERATION_TIME,DATA_STATUS,NOTES)
 values(
 #{id},#{name},#{countryCode},#{district},#{population},#{createTime},
@@ -29,7 +29,7 @@ values(
     #{notes}
     )
 </insert>
-    <select id="selectCity" parameterType="entity.CityEntity" resultMap="cityResultMap">
+    <select id="selectCity" parameterType="com.entity.CityEntity" resultMap="cityResultMap">
         select * from city
         <where>
             <if test="null != name and name != ''">

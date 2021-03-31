@@ -1,8 +1,7 @@
 package com.dao;
 
-import entity.CityEntity;
+import com.entity.CityEntity;
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 

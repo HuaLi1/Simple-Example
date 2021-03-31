@@ -1,6 +1,6 @@
 package com.dao;
 
-import entity.CityEntity;
+import com.entity.CityEntity;
 
 import java.util.List;
 

@@ -3,7 +3,7 @@ package com.service;
 import com.alibaba.fastjson.JSON;
 import com.daoService.CityJdbcTemplateDao;
 import com.daoService.CityMybatisService;
-import entity.CityEntity;
+import com.entity.CityEntity;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
